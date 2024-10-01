@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import router from './app/route';
 
 
 
@@ -14,14 +15,14 @@ app.use(cors({ origin: ['http://localhost:3001'], credentials: true }));
 
 
 
-// app.use('/api/v1', router);
+app.use('/', router);
 
 
 
 const test = async(req: Request, res: Response) => {
   
-  const a = 10;
-  res.send(a);
+  
+  res.send("Cooksy");
 };
 
 app.get('/', test);
