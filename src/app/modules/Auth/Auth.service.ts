@@ -1,4 +1,6 @@
+import httpStatus from "http-status"
 import config from "../../config"
+import AppError from "../../errors/AppError"
 import { User } from "../User/User.model"
 import { TLoginUser, TRegisterUser } from "./Auth.interface"
 import { createToken } from "./Auth.utils"
@@ -25,10 +27,10 @@ const loginService=async(payload:TLoginUser)=>{
             
         }
         else{
-            throw new Error("Password Doesn't matched")
+            throw new AppError(httpStatus.FORBIDDEN,"Password Doesn't matched")
         }
     }else{
-        throw new Error("User dont exist")
+        throw new AppError(httpStatus.NOT_FOUND,"User not found")
 
     }
    
@@ -38,13 +40,13 @@ const RegisterUserService=async(payload:TRegisterUser)=>{
     const user = await User.isUserExistsByEmail(payload.email);
 
   if (user) {
-    throw new Error('User already Created!');
+    throw new AppError(httpStatus.BAD_REQUEST,'User already Created!')
   }
  
-  const isBlocked= user?.isBlocked ;
+  const isBlocked= user?.isBlocked  ;
 
   if (isBlocked) {
-    throw new Error( 'This user is blocked !');
+    throw new AppError(httpStatus.BAD_REQUEST,'This user is blocked !');
    
 }
 const newData={

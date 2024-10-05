@@ -1,7 +1,10 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
+import globalErrorHandler from './app/middlewares/globalErrorhandler';
 import cookieParser from 'cookie-parser';
 import router from './app/route';
+
+
 
 
 
@@ -26,6 +29,7 @@ const test = async(req: Request, res: Response) => {
 };
 
 app.get('/', test);
+app.use(globalErrorHandler)
 
 
 export default app;
