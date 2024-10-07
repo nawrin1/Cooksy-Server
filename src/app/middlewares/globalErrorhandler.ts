@@ -4,28 +4,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 import { ZodError, ZodIssue } from 'zod';
+import { TErrorSources } from '../interface/error';
 import config from '../config';
 import handleZodError from '../errors/handleZodError';
 import handleValidationError from '../errors/handleValidationError';
 import handleCastError from '../errors/handleCastError';
-import handleDuplicateError from '../errors/handleDplicateError';
-import AppError from '../errors/AppError';
-import { TErrorSources } from '../interface/error';
 
+import AppError from '../errors/AppError';
+import handleDuplicateError from '../errors/handleDplicateError';
 
 const globalErrorHandler:ErrorRequestHandler = (
   err,
   req,
   res,
-  next
+  next,
 ) => {
   //setting default values
-
   console.log(err)
-  let statusCode = err?.statusCode||500;
-  let message = err?.message || 'Something went wrong!';
+  let statusCode = err.statusCode||500;
+  let message = err.message || 'Something went wrong!';
 
-  let errorSources = [
+  let errorSources: TErrorSources = [
     {
       path: '',
       message: 'Something went wrong',
@@ -34,13 +33,15 @@ const globalErrorHandler:ErrorRequestHandler = (
 
 
  if(err instanceof ZodError){
-    
+  console.log("zod")
+  
   const simplifiedError=handleZodError(err)
   statusCode = simplifiedError?.statusCode;
   message = simplifiedError?.message;
-  errorSources = simplifiedError?.errorSources as TErrorSources;
+  errorSources = simplifiedError?.errorSources;
 
  }else if (err?.name === 'ValidationError') {
+  console.log("validation")
   const simplifiedError = handleValidationError(err);
   statusCode = simplifiedError?.statusCode;
   message = simplifiedError?.message;
@@ -55,7 +56,8 @@ const globalErrorHandler:ErrorRequestHandler = (
   statusCode = simplifiedError?.statusCode;
   message = simplifiedError?.message;
   errorSources = simplifiedError?.errorSources;
-} else if (err instanceof AppError) {
+} else if (err.constructor.name === 'AppError') {
+  console.log("app")
   statusCode = err?.statusCode;
   message = err.message;
   errorSources = [
@@ -65,6 +67,7 @@ const globalErrorHandler:ErrorRequestHandler = (
     },
   ];
 } else if (err instanceof Error) {
+  console.log("err")
   message = err.message;
   errorSources = [
     {
@@ -78,14 +81,15 @@ const globalErrorHandler:ErrorRequestHandler = (
 
 
   
-  res.status(statusCode).json({
+   res.status(statusCode).json({
     success: false,
     message,
     errorSources,
     err,
     stack: config.NODE_ENV === 'development' ? err?.stack : null,
-    
+    // error: err,
   });
 };
 
 export default globalErrorHandler;
+

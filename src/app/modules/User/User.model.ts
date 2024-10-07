@@ -34,10 +34,10 @@ const userSchema = new Schema<TUser,UserModel>(
       },
       
       follower:{
-        type:[String],
+        type:[Schema.Types.ObjectId],
       },
       following:{
-        type:[String]
+        type:[Schema.Types.ObjectId]
       },
       isBlocked: {
         type: Boolean,
@@ -55,8 +55,8 @@ const userSchema = new Schema<TUser,UserModel>(
 
 
 
-  userSchema.statics.isUserExistsByEmail = async function (id: string) {
-    return await User.findOne({ id })
+  userSchema.statics.isUserExistsByEmail = async function (payloademail: string) {
+    return await User.findOne({email:payloademail})
   };
 
 

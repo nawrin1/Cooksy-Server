@@ -1,4 +1,4 @@
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 
 export type TUser={
     name:string;
@@ -9,8 +9,8 @@ export type TUser={
     bio:string;
     isBlocked:boolean;
     isPremium:boolean;
-    follower:string[];
-    following:string[];
+    follower:Types.ObjectId[];
+    following:Types.ObjectId[];
 }
 
 export interface UserModel extends Model<TUser> {
