@@ -17,10 +17,28 @@ const registerValidation=z.object({
     })
 })
 
+const forgetPasswordValidationSchema = z.object({
+    body: z.object({
+      email: z.string({
+        required_error: 'user email is required',
+      })
+    }),
+  });
+
+
+const forgetPasswordNewValidationSchema = z.object({
+    body:z.object({
+        email:z.string({required_error:"Email is required",invalid_type_error:"Email must be a string"}),
+        newPassword:z.string({required_error:"Password is required"})
+    })
+  });
+
 
 
 
 export const AuthValidation={
     loginValidation,
-    registerValidation
+    registerValidation,
+    forgetPasswordValidationSchema,
+    forgetPasswordNewValidationSchema
 }

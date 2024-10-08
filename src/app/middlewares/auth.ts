@@ -11,7 +11,10 @@ import { User } from '../modules/User/User.model';
 
 const auth = (...requiredRoles: (keyof typeof USER_ROLE)[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.headers)
     const token = req.headers.authorization;
+
+    console.log(token)
 
     // checking if the token is missing
     if (!token) {

@@ -3,6 +3,7 @@ import { AuthServices } from "./Auth.service"
 import httpStatus from 'http-status';
 import sendResponse from "../../utils/SendResponse";
 import config from "../../config";
+import catchAsync from "../../utils/catchAsync";
 
 const loginUser=async(req:Request,res:Response,next:NextFunction)=>{
     // console.log("in login controller")
@@ -39,7 +40,42 @@ const RegisterUser=async(req:Request,res:Response,next:NextFunction)=>{
     }
 }
 
+
+
+const forgetPassword = catchAsync(async (req, res,next) => {
+try{
+  const useremail= req.body.email;
+  const result = await AuthServices.forgetPassword(useremail);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Reset link is generated succesfully!',
+    data: result,
+  });
+}catch(err){
+  next(err)
+}
+});
+const forgetPasswordNew = catchAsync(async (req, res,next) => {
+try{
+  const userData= req.body;
+  const result = await AuthServices.forgetPasswordNewDB(userData);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Password Updated Successfully!',
+    data: result,
+  });
+}catch(err){
+  next(err)
+}
+});
+
 export const AuthControllers={
     loginUser,
-    RegisterUser
+    RegisterUser,
+    forgetPassword,
+    forgetPasswordNew
 }
