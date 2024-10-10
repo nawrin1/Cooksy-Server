@@ -16,6 +16,7 @@ const recipeSchema = new Schema<IRecipe>(
       },
       user: {
         type: String,
+        ref: 'User',
         required: true,
         
       },
@@ -34,10 +35,13 @@ const recipeSchema = new Schema<IRecipe>(
         type: String,
        
       },
-      tag: {
-        type: String,
+      tags: {
+        type: [String],
        
       },
+      vote:{
+        type:Number
+      }
     },
     {
       timestamps: true,

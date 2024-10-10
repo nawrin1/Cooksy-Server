@@ -2,9 +2,10 @@ interface IRecipe  {
     title: string;
     description: string;
     rating: string;
-    tag: string;
+    tags: [string];
     time: string;
-    user: string
+    user: string;
+    vote:number;
       
     images: string[];
   }

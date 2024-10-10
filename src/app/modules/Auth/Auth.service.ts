@@ -48,7 +48,7 @@ const loginService=async(payload:TLoginUser)=>{
     //     }
     // }
 
-    console.log("inside service")
+    // console.log("inside service")
     const result = await User.isUserExistsByEmail(payload.email);
 
     if (!result) {

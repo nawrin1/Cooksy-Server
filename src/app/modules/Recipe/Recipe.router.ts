@@ -24,9 +24,9 @@ router.post(
   RecipeControllers.createRecipe
 );
 
-// router.get('/', ItemControllers.getAllItems);
+router.get('/', RecipeControllers.getAllRecipe);
 
-// router.get('/:id', ItemControllers.getItem);
+router.get('/:id', RecipeControllers.getRecipe);
 
 // router.put(
 //   '/:id',
@@ -34,6 +34,12 @@ router.post(
 //   validateRequest(ItemValidation.updateItemValidationSchema),
 //   ItemControllers.updateItem
 // );
+router.put(
+  '/vote',
+  auth(USER_ROLE.User),
+ 
+  RecipeControllers.voteRecipe
+);
 
 // router.delete('/:id', auth(USER_ROLE.USER), ItemControllers.deleteItem);
 
