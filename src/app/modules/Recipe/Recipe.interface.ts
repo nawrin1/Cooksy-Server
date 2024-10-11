@@ -3,7 +3,7 @@ import { Types } from "mongoose";
 export interface IRecipe  {
     title: string;
     description: string;
-    rating: string;
+    rating: [number];
     tags: [string];
     time: string;
     user: string;

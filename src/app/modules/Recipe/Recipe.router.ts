@@ -58,6 +58,12 @@ router.put(
  
   RecipeControllers.commentEdit
 );
+router.put(
+  '/rate',
+  // auth(USER_ROLE.User),
+ 
+  RecipeControllers.rate
+);
 
 // router.delete('/:id', auth(USER_ROLE.USER), ItemControllers.deleteItem);
 

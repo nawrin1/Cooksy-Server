@@ -103,6 +103,20 @@ const createRecipe = catchAsync(async (req, res) => {
       data: item,
     });
   });
+  const rate = catchAsync(async (req, res) => {
+  
+    const rateInfo = req.body
+    console.log(req.body)
+    const item = await RecipeServices. rateRecipeFromDB(rateInfo);
+    // console.log(item)
+  
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: 'Rated successfully',
+      data: item,
+    });
+  });
 
   export const RecipeControllers = {
    
@@ -112,7 +126,8 @@ const createRecipe = catchAsync(async (req, res) => {
     voteRecipe,
     commentRecipe,
     commentDelete,
-    commentEdit
+    commentEdit,
+    rate
   };
   
   

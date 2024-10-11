@@ -33,7 +33,7 @@ const createRecipeIntoDB = async (payload: any, images: any) => {
       })
     
   
-      console.log(result,"from recipe")
+      // console.log(result,"from recipe")
   
     return result;
   };
@@ -138,6 +138,29 @@ const createRecipeIntoDB = async (payload: any, images: any) => {
       throw new AppError(httpStatus.BAD_REQUEST,"Comment added failed");
   }
 }
+  const rateRecipeFromDB = async (rateData:any) => {
+    console.log(rateData,"rate")
+    
+    try {
+      
+    
+      const addRate = await Recipe.findByIdAndUpdate(
+          rateData.id,
+          { $push: { rating:  rateData.rate} },  
+          { new: true }
+      );
+  
+    
+
+    
+  
+      return addRate
+  
+  } catch (error) {
+      
+      throw new AppError(httpStatus.BAD_REQUEST,"Rate added failed");
+  }
+}
   
 
   export const RecipeServices = {
@@ -147,7 +170,8 @@ const createRecipeIntoDB = async (payload: any, images: any) => {
     voteRecipeFromDB,
     commentRecipeFromDB,
     commentDeleteFromDB,
-    commentEditFromDB
+    commentEditFromDB,
+    rateRecipeFromDB
   
   };
   
