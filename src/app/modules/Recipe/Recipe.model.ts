@@ -1,7 +1,18 @@
 import { Schema, model } from "mongoose";
+import { IComment, IRecipe } from "./Recipe.interface";
 
 
-
+const commentSchema = new Schema<IComment>({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',               
+    required: true,
+  },
+  comment: {
+    type: String,
+    required: true,
+  },
+});
 const recipeSchema = new Schema<IRecipe>(
     {
       title: {
@@ -41,7 +52,8 @@ const recipeSchema = new Schema<IRecipe>(
       },
       vote:{
         type:Number
-      }
+      },
+      comments: [commentSchema], 
     },
     {
       timestamps: true,

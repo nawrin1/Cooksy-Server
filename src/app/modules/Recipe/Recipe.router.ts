@@ -40,6 +40,18 @@ router.put(
  
   RecipeControllers.voteRecipe
 );
+router.put(
+  '/comments',
+  auth(USER_ROLE.User),
+ 
+  RecipeControllers.commentRecipe
+);
+router.put(
+  '/commentsdelete',
+  auth(USER_ROLE.User),
+ 
+  RecipeControllers.commentDelete
+);
 
 // router.delete('/:id', auth(USER_ROLE.USER), ItemControllers.deleteItem);
 

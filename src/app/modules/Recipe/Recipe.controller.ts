@@ -62,13 +62,42 @@ const createRecipe = catchAsync(async (req, res) => {
       data: item,
     });
   });
+  const commentRecipe = catchAsync(async (req, res) => {
+  
+    const commentInfo = req.body
+    const item = await RecipeServices.commentRecipeFromDB(commentInfo);
+    // console.log(item)
+  
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: 'Comment done successfully',
+      data: item,
+    });
+  });
+  const commentDelete = catchAsync(async (req, res) => {
+  
+    const {commentId} = req.body
+    console.log(req.body)
+    const item = await RecipeServices.commentDeleteFromDB(commentId);
+    // console.log(item)
+  
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: 'Comment deleted successfully',
+      data: item,
+    });
+  });
 
   export const RecipeControllers = {
    
     createRecipe,
     getAllRecipe,
     getRecipe,
-    voteRecipe
+    voteRecipe,
+    commentRecipe,
+    commentDelete
   };
   
   
