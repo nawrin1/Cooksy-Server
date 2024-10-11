@@ -72,10 +72,44 @@ try{
   next(err)
 }
 });
+const follow = catchAsync(async (req, res,next) => {
+try{
+  const followData= req.body;
+  const result = await AuthServices.followDB(followData);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Following  Updated Successfully!',
+    data: result,
+  });
+}catch(err){
+  next(err)
+}
+});
+
+
+const unfollow = catchAsync(async (req, res,next) => {
+try{
+  const followData= req.body;
+  const result = await AuthServices.unfollowDB(followData);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'UnFollowing  Updated Successfully!',
+    data: result,
+  });
+}catch(err){
+  next(err)
+}
+});
 
 export const AuthControllers={
     loginUser,
     RegisterUser,
     forgetPassword,
-    forgetPasswordNew
+    forgetPasswordNew,
+    follow,
+    unfollow
 }

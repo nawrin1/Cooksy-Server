@@ -19,5 +19,17 @@ router.patch(
     validateRequest(AuthValidation.forgetPasswordNewValidationSchema),
     AuthControllers.forgetPasswordNew,
   );
+router.patch(
+    '/follow',
+    auth(USER_ROLE.User),
+    
+    AuthControllers.follow,
+  );
+router.patch(
+    '/unfollow',
+    auth(USER_ROLE.User),
+    
+    AuthControllers.unfollow,
+  );
 
 export const AuthRoutes=router;

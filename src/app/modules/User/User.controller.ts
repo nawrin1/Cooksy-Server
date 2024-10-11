@@ -1,0 +1,31 @@
+import httpStatus from "http-status";
+import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/SendResponse";
+import { UserServices } from "./User.service";
+
+const checkFollow = catchAsync(async (req, res,next) => {
+    try{
+      const followData= req.query;
+      console.log(followData,"from user service")
+     
+      const result = await UserServices.followDB(followData);
+      console.log(result,"controller")
+    
+      sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Checking done Successfully!',
+        data: result,
+      });
+    }catch(err){
+      next(err)
+    }
+    });
+
+    export const UserControllers = {
+        checkFollow
+   
+       
+      };
+      
+      

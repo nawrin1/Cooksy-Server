@@ -6,6 +6,7 @@ import { TLoginUser, TRegisterUser } from "./Auth.interface"
 import { createToken } from "./Auth.utils"
 import AppError from "../../errors/AppError"
 import { sendEmail } from "../../utils/sendEmail"
+import mongoose from "mongoose"
 
 const loginService=async(payload:TLoginUser)=>{
     // const result=await User.findOne({email:payload.email})
@@ -202,9 +203,85 @@ const forgetPasswordNewDB = async (userData: {email:string,newPassword:string}) 
 
  
 };
+const followDB = async (followData:any) => {
+  console.log("follow")
+  
+  try {
+    
+  
+    const updateCurrentUser = await User.findByIdAndUpdate(
+        followData.currentUser,
+        { $addToSet: { following: followData.followedUser} },  
+        { new: true }
+    );
+
+  
+    const updateFollowedUser = await User.findByIdAndUpdate(
+      followData.followedUser,
+        { $addToSet: { follower: followData.currentUser } },  
+        { new: true }
+    );
+
+  
+
+    return {
+        following: updateCurrentUser?.following,
+        followers: updateFollowedUser?.follower,
+    };
+
+} catch (error) {
+    
+    throw new AppError(httpStatus.BAD_REQUEST,"Follower updated failed");
+}
+
+
+ 
+
+
+  
+
+ 
+};
+
+
+
+const unfollowDB = async (followData: any) => {
+  console.log("unfollow");
+
+  try {
+    
+    const updateCurrentUser = await User.findByIdAndUpdate(
+      followData.currentUser,
+      { $pull: { following: followData.followedUser } }, 
+      { new: true }
+    );
+
+ 
+    const updateFollowedUser = await User.findByIdAndUpdate(
+      followData.followedUser,
+      { $pull: { follower: followData.currentUser } }, 
+      { new: true }
+    );
+
+    return {
+      following: updateCurrentUser?.following,
+      followers: updateFollowedUser?.follower,
+    };
+  } catch (error) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Follower update failed");
+  }
+};
+
+
+ 
+
+ 
+
 export const AuthServices={
     loginService,
     RegisterUserService,
     forgetPassword,
-    forgetPasswordNewDB
+    forgetPasswordNewDB,
+    followDB,
+    unfollowDB
 }
