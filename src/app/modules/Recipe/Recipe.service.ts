@@ -46,7 +46,7 @@ const createRecipeIntoDB = async (payload: any, images: any) => {
         populate: { path: 'user' }  
       })
 
-      console.log(result,"from singlr recipe")
+      // console.log(result,"from singlr recipe")
     
       
     return result;
@@ -58,6 +58,25 @@ const createRecipeIntoDB = async (payload: any, images: any) => {
       const result = await Recipe.findOneAndUpdate(
         { 'comments._id': commentId }, 
         { $pull: { comments: { _id: commentId } } }, 
+        { new: true }
+      );
+  
+      if (!result) {
+        return { message: "Recipe or comment not found" };
+      }
+  
+      return { message: "Comment deleted successfully", recipe: result };
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+      return { message: "Error deleting comment", error };
+    }
+  };
+  const commentEditFromDB = async (commentInfo:any) => {
+    try {
+      
+      const result = await Recipe.findOneAndUpdate(
+        { 'comments._id': commentInfo.commentId }, 
+        { $set: { 'comments.$.comment': commentInfo.newComment } },
         { new: true }
       );
   
@@ -127,7 +146,8 @@ const createRecipeIntoDB = async (payload: any, images: any) => {
     getRecipeFromDB,
     voteRecipeFromDB,
     commentRecipeFromDB,
-    commentDeleteFromDB
+    commentDeleteFromDB,
+    commentEditFromDB
   
   };
   

@@ -37,7 +37,7 @@ const createRecipe = catchAsync(async (req, res) => {
   
 
   const getRecipe = catchAsync(async (req, res) => {
-    console.log("inside single")
+    // console.log("inside single")
     const recipeId = req.params.id;
     const item = await RecipeServices.getRecipeFromDB(recipeId);
     console.log(item)
@@ -78,7 +78,7 @@ const createRecipe = catchAsync(async (req, res) => {
   const commentDelete = catchAsync(async (req, res) => {
   
     const {commentId} = req.body
-    console.log(req.body)
+    // console.log(req.body)
     const item = await RecipeServices.commentDeleteFromDB(commentId);
     // console.log(item)
   
@@ -86,6 +86,20 @@ const createRecipe = catchAsync(async (req, res) => {
       success: true,
       statusCode: httpStatus.OK,
       message: 'Comment deleted successfully',
+      data: item,
+    });
+  });
+  const commentEdit = catchAsync(async (req, res) => {
+  
+    const commentInfo = req.body
+    console.log(req.body)
+    const item = await RecipeServices.commentEditFromDB(commentInfo);
+    // console.log(item)
+  
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: 'Comment edit successfully',
       data: item,
     });
   });
@@ -97,7 +111,8 @@ const createRecipe = catchAsync(async (req, res) => {
     getRecipe,
     voteRecipe,
     commentRecipe,
-    commentDelete
+    commentDelete,
+    commentEdit
   };
   
   

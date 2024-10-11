@@ -52,6 +52,12 @@ router.put(
  
   RecipeControllers.commentDelete
 );
+router.put(
+  '/editcomments',
+  auth(USER_ROLE.User),
+ 
+  RecipeControllers.commentEdit
+);
 
 // router.delete('/:id', auth(USER_ROLE.USER), ItemControllers.deleteItem);
 
