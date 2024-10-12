@@ -39,6 +39,7 @@ const createRecipe = catchAsync(async (req, res) => {
   const getRecipe = catchAsync(async (req, res) => {
     // console.log("inside single")
     const recipeId = req.params.id;
+    console.log(recipeId,"from single")
     const item = await RecipeServices.getRecipeFromDB(recipeId);
     console.log(item)
   

@@ -39,6 +39,7 @@ const createRecipeIntoDB = async (payload: any, images: any) => {
   };
 
   const getRecipeFromDB = async (recipeId: string) => {
+    console.log(recipeId,"from single recipe")
     const result = await Recipe.findById(recipeId)
       .populate('user')
       .populate({
@@ -46,7 +47,7 @@ const createRecipeIntoDB = async (payload: any, images: any) => {
         populate: { path: 'user' }  
       })
 
-      // console.log(result,"from singlr recipe")
+      console.log(result,"from singlr recipe")
     
       
     return result;

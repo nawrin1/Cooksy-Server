@@ -26,8 +26,29 @@ const followDB = async (followInfo:any) => {
 
   };
 
+
+
+  
+const getMeFromDB = async (id:any) => {
+
+  try {
+    
+    const user = await User.findOne({
+      _id: id,
+     
+    });
+
+    return user
+  } catch (error) {
+    console.error("Error checking follow status:", error);
+    throw new Error("Could not check follow status.");
+  }
+
+  };
+
   export const UserServices = {
-   followDB
+   followDB,
+   getMeFromDB
   
   };
   
