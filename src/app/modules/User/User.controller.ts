@@ -25,7 +25,7 @@ const checkFollow = catchAsync(async (req, res,next) => {
 const getMe = catchAsync(async (req, res,next) => {
     try{
       const {id}= req.params;
-      console.log(id,"from user service")
+      // console.log(id,"from user service")
      
       const result = await UserServices.getMeFromDB(id);
       // console.log(result,"controller")
@@ -33,7 +33,7 @@ const getMe = catchAsync(async (req, res,next) => {
       sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'Checking done Successfully!',
+        message: 'My info retrived Successfully!',
         data: result,
       });
     }catch(err){

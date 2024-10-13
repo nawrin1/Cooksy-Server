@@ -8,7 +8,7 @@ import AppError from "../../errors/AppError"
 import { sendEmail } from "../../utils/sendEmail"
 import mongoose from "mongoose"
 
-const loginService=async(payload:TLoginUser)=>{
+const loginService=async(payload:any)=>{
     // const result=await User.findOne({email:payload.email})
     // console.log(result)
     // if(!result){
@@ -245,6 +245,24 @@ const followDB = async (followData:any) => {
 
 
 
+const resetPasswordDB = async (resetData: any) => {
+  console.log(resetData,"rese pass")
+  
+
+  try {
+    
+    const updatePassword = await User.findByIdAndUpdate(
+      resetData.user,
+      { $set: { password: resetData.password } }, 
+     
+    );
+
+ 
+    return updatePassword
+  } catch (error) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Password reset failed");
+  }
+};
 const unfollowDB = async (followData: any) => {
   console.log("unfollow");
 
@@ -272,7 +290,32 @@ const unfollowDB = async (followData: any) => {
   }
 };
 
+const editProfileDB = async (profileData: any) => {
+  console.log(profileData,"edit profile")
+  
 
+  try {
+    
+    const updateProfile = await User.findByIdAndUpdate(
+      profileData.id,
+      {
+        $set: {
+          name: profileData?.name,
+          password: profileData?.password,
+          bio: profileData?.bio,
+          image: profileData?.image,
+          email: profileData?.email,
+        },
+      },
+      { new: true } 
+    );
+    
+ 
+    return updateProfile
+  } catch (error) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Profile edited failed");
+  }
+};
  
 
  
@@ -283,5 +326,7 @@ export const AuthServices={
     forgetPassword,
     forgetPasswordNewDB,
     followDB,
-    unfollowDB
+    unfollowDB,
+    resetPasswordDB,
+    editProfileDB
 }

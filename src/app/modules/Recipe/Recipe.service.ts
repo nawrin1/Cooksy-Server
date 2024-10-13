@@ -150,11 +150,7 @@ const createRecipeIntoDB = async (payload: any, images: any) => {
           { $push: { rating:  rateData.rate} },  
           { new: true }
       );
-  
-    
 
-    
-  
       return addRate
   
   } catch (error) {
@@ -162,6 +158,48 @@ const createRecipeIntoDB = async (payload: any, images: any) => {
       throw new AppError(httpStatus.BAD_REQUEST,"Rate added failed");
   }
 }
+
+
+
+
+
+
+const getMyRecipeFromDB = async (id:any) => {
+
+  try {
+    
+    const user = await Recipe.find({
+      user: id,
+     
+    })
+      
+
+    return user
+  } catch (error) {
+    console.error("Error fetching my recipe:", error);
+    throw new Error("Could not fetch my recipe.");
+  }
+
+  };
+const deleteMyRecipeFromDB = async (id:any) => {
+  console.log(id,"del recipe")
+
+  try {
+    
+    const recipe = await Recipe.findOneAndDelete({
+      _id: id.id,
+     
+    })
+      
+
+    return recipe
+  } catch (error) {
+    console.error("Error deleting my recipe:", error);
+    throw new Error("Could not delete my recipe.");
+  }
+
+  };
+
   
 
   export const RecipeServices = {
@@ -172,7 +210,9 @@ const createRecipeIntoDB = async (payload: any, images: any) => {
     commentRecipeFromDB,
     commentDeleteFromDB,
     commentEditFromDB,
-    rateRecipeFromDB
+    rateRecipeFromDB,
+    getMyRecipeFromDB,
+    deleteMyRecipeFromDB
   
   };
   

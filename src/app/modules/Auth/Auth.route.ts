@@ -14,6 +14,16 @@ router.post(
     AuthControllers.forgetPassword,
   );
 router.patch(
+    '/reset-password',
+
+    AuthControllers.resetPassword,
+  );
+router.patch(
+    '/edit-profile',
+
+    AuthControllers.editProfile,
+  );
+router.patch(
     '/forget-password-new',
     auth(USER_ROLE.User),
     validateRequest(AuthValidation.forgetPasswordNewValidationSchema),

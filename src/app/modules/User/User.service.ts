@@ -28,7 +28,7 @@ const followDB = async (followInfo:any) => {
 
 
 
-  
+
 const getMeFromDB = async (id:any) => {
 
   try {
@@ -36,7 +36,9 @@ const getMeFromDB = async (id:any) => {
     const user = await User.findOne({
       _id: id,
      
-    });
+    }).populate("follower") 
+      .populate("following");
+      
 
     return user
   } catch (error) {

@@ -57,6 +57,43 @@ try{
   next(err)
 }
 });
+const resetPassword = catchAsync(async (req, res,next) => {
+  console.log(req.body)
+try{
+  
+  
+  const result = await AuthServices.resetPasswordDB(req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Password reset succesfully!',
+    data: result,
+  });
+}catch(err){
+  next(err)
+}
+});
+
+
+
+const editProfile = catchAsync(async (req, res,next) => {
+  console.log(req.body)
+try{
+  
+  
+  const result = await AuthServices.editProfileDB(req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Profile Edited succesfully!',
+    data: result,
+  });
+}catch(err){
+  next(err)
+}
+});
 const forgetPasswordNew = catchAsync(async (req, res,next) => {
 try{
   const userData= req.body;
@@ -111,5 +148,7 @@ export const AuthControllers={
     forgetPassword,
     forgetPasswordNew,
     follow,
-    unfollow
+    unfollow,
+    resetPassword,
+    editProfile
 }

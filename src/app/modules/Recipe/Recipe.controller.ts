@@ -108,13 +108,42 @@ const createRecipe = catchAsync(async (req, res) => {
   
     const rateInfo = req.body
     console.log(req.body)
-    const item = await RecipeServices. rateRecipeFromDB(rateInfo);
+    const item = await RecipeServices.rateRecipeFromDB(rateInfo);
     // console.log(item)
   
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
       message: 'Rated successfully',
+      data: item,
+    });
+  });
+  const getMyRecipe = catchAsync(async (req, res) => {
+  
+    const {id} = req.params
+   
+    const item = await RecipeServices.getMyRecipeFromDB(id);
+    // console.log(item)
+  
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: 'My Recipe fetched successfully',
+      data: item,
+    });
+  });
+  const deleteMyRecipe = catchAsync(async (req, res) => {
+    console.log(req.body)
+  
+ 
+   
+    const item = await RecipeServices.deleteMyRecipeFromDB(req.body);
+    // console.log(item)
+  
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: 'My Recipe deleted successfully',
       data: item,
     });
   });
@@ -128,7 +157,9 @@ const createRecipe = catchAsync(async (req, res) => {
     commentRecipe,
     commentDelete,
     commentEdit,
-    rate
+    rate,
+    getMyRecipe,
+    deleteMyRecipe
   };
   
   
