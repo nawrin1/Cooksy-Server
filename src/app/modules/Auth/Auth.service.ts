@@ -6,7 +6,7 @@ import { TLoginUser, TRegisterUser } from "./Auth.interface"
 import { createToken } from "./Auth.utils"
 import AppError from "../../errors/AppError"
 import { sendEmail } from "../../utils/sendEmail"
-import mongoose from "mongoose"
+
 
 const loginService=async(payload:any)=>{
     // const result=await User.findOne({email:payload.email})
